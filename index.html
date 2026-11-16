@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MotoHurt – obsługa zwrotów</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- GÓRNY PASEK -->
+  <header class="pasek">
+    <div class="logo">Moto<span>Hurt</span></div>
+    <div class="podtytul">Obsługa zwrotów do hurtowni</div>
+    <nav class="zakladki">
+      <button class="zakladka aktywna" data-widok="widok-zwroty">Zwroty</button>
+      <button class="zakladka" data-widok="widok-pilne">Pilne zwroty</button>
+      <button class="zakladka" data-widok="widok-bazy">Bazy danych</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===================== ZAKŁADKA: ZWROTY ===================== -->
+    <section id="widok-zwroty" class="widok">
+
+      <div class="karta wyszukiwarka">
+        <h1>Sprawdź zwrot</h1>
+        <p class="pomoc">Wpisz numer zamówienia z paczki (od <b>1</b> do <b>100</b>, np. <b>1</b>) albo numer faktury od hurtowni (np. <b>FV00001435</b>).</p>
+        <form id="formularz">
+          <label>
+            Numer zamówienia lub faktury
+            <input id="pole-numer" list="lista-numerow" placeholder="np. 1 lub FV00001435" autocomplete="off" autofocus>
+            <datalist id="lista-numerow"></datalist>
+          </label>
+          <label>
+            Data przyjęcia zwrotu
+            <input id="pole-data" type="date">
+          </label>
+          <button type="submit" class="przycisk glowny">Sprawdź</button>
+        </form>
+        <p id="blad" class="blad" hidden></p>
+      </div>
+
+      <!-- WYNIK DLA ZAMÓWIENIA -->
+      <div id="wynik" hidden>
+        <div id="status" class="status"></div>
+
+        <div class="siatka">
+          <div class="karta info"><h2>Kto</h2><div id="info-kto"></div></div>
+          <div class="karta info"><h2>Kiedy</h2><div id="info-kiedy"></div></div>
+          <div class="karta info"><h2>Co i ile</h2><div id="info-co"></div></div>
+          <div class="karta info"><h2>Dokąd (hurtownia)</h2><div id="info-dokad"></div></div>
+          <div class="karta info szeroka"><h2>Faktura od hurtowni</h2><div id="info-faktura"></div></div>
+        </div>
+
+        <div class="karta akcje">
+          <label>
+            Powód zwrotu
+            <select id="pole-powod">
+              <option>Odstąpienie od umowy przez klienta</option>
+              <option>Niewłaściwa część (nie pasuje do pojazdu)</option>
+              <option>Wada fabryczna</option>
+              <option>Uszkodzenie w transporcie</option>
+              <option>Inny</option>
+            </select>
+          </label>
+          <button id="przycisk-dokument" class="przycisk glowny">Generuj dokument</button>
+          <button id="przycisk-api" class="przycisk">Powiadom hurtownię (API – symulacja)</button>
+        </div>
+
+        <pre id="odpowiedz-api" class="api" hidden></pre>
+
+        <div id="obszar-dokumentu" hidden>
+          <div class="pasek-dokumentu">
+            <span>Podgląd dokumentu</span>
+            <button id="przycisk-drukuj" class="przycisk glowny">Drukuj / zapisz jako PDF</button>
+          </div>
+          <article id="dokument" class="dokument"></article>
+        </div>
+      </div>
+
+      <!-- WYNIK DLA FAKTURY -->
+      <div id="wynik-faktura" hidden>
+        <div id="status-faktura" class="status"></div>
+        <div class="siatka">
+          <div class="karta info"><h2>Faktura</h2><div id="faktura-naglowek"></div></div>
+          <div class="karta info"><h2>Hurtownia</h2><div id="faktura-hurtownia"></div></div>
+        </div>
+        <div class="karta">
+          <h2>Pozycje na fakturze</h2>
+          <div class="przewijanie" id="faktura-pozycje"></div>
+          <p class="pomoc maly">Kliknij „Szczegóły”, żeby otworzyć zamówienie i przygotować dokument zwrotu.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ZAKŁADKA: PILNE ZWROTY ===================== -->
+    <section id="widok-pilne" class="widok" hidden>
+      <div class="karta">
+        <h1>Pilne zwroty</h1>
+        <p class="pomoc">Faktury, którym termin zwrotu do hurtowni kończy się w ciągu najbliższych <b>3 dni</b>. Jeśli klient odda część z takiej faktury, trzeba ją odesłać od razu.</p>
+        <form id="formularz-pilne">
+          <label>
+            Stan na dzień
+            <input id="pole-data-pilne" type="date">
+          </label>
+        </form>
+      </div>
+      <div class="karta">
+        <div class="przewijanie" id="tabela-pilne"></div>
+      </div>
+    </section>
+
+    <!-- ===================== ZAKŁADKA: BAZY DANYCH ===================== -->
+    <section id="widok-bazy" class="widok" hidden>
+      <div class="karta"><h2>Dostawcy (hurtownie)</h2><div class="przewijanie" id="tabela-dostawcy"></div></div>
+      <div class="karta"><h2>Faktury od hurtowni</h2><div class="przewijanie" id="tabela-faktury"></div></div>
+      <div class="karta"><h2>Zamówienia</h2><div class="przewijanie" id="tabela-zamowienia"></div></div>
+      <div class="karta"><h2>Klienci</h2><div class="przewijanie" id="tabela-klienci"></div></div>
+      <div class="karta"><h2>Części</h2><div class="przewijanie" id="tabela-czesci"></div></div>
+    </section>
+  </main>
+
+  <!-- Bazy danych (pliki w folderze "dane") -->
+  <script src="dane/czesci.js"></script>
+  <script src="dane/dostawcy.js"></script>
+  <script src="dane/klienci.js"></script>
+  <script src="dane/zamowienia.js"></script>
+  <script src="dane/faktury.js"></script>
+  <!-- Generator kodów QR -->
+  <script src="biblioteki/qrcode.js"></script>
+  <!-- Logika aplikacji -->
+  <script src="app.js"></script>
+</body>
+</html>

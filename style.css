@@ -1,0 +1,149 @@
+/* ===== Kolory i podstawy ===== */
+:root {
+  /* Zmień te kolory, żeby zmienić wygląd całej strony */
+  --glowny: #0d3b45;          /* ciemny morski – pasek u góry, nagłówki */
+  --glowny-jasny: #1f5c69;    /* obramowania w pasku */
+  --akcent: #ffc233;          /* żółty – przyciski, logo */
+  --tekst-na-akcencie: #0d3b45;
+  --tlo: #eef3f2;
+  --karta: #ffffff;
+  --tekst: #17262b;
+  --szary: #5a6b70;
+  --ramka: #d3dfdd;
+  --zielony: #1b7f4c;
+  --zielony-tlo: #e3f5ea;
+  --czerwony: #b42318;
+  --czerwony-tlo: #fdeceb;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  background: var(--tlo);
+  color: var(--tekst);
+  line-height: 1.45;
+}
+
+/* ===== Górny pasek ===== */
+.pasek {
+  background: var(--glowny);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 32px;
+  flex-wrap: wrap;
+}
+.logo { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+.logo span { color: var(--akcent); }
+.dok-firma span { color: #c98a00; }
+.podtytul { color: #a9c5cb; font-size: 14px; }
+.zakladki { margin-left: auto; display: flex; gap: 6px; }
+.zakladka {
+  background: transparent; color: #cfe2e5; border: 1px solid var(--glowny-jasny);
+  padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.zakladka.aktywna { background: var(--akcent); border-color: var(--akcent); color: var(--tekst-na-akcencie); font-weight: 600; }
+
+main { max-width: 1100px; margin: 28px auto; padding: 0 20px; }
+
+/* ===== Karty ===== */
+.karta {
+  background: var(--karta);
+  border: 1px solid var(--ramka);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 18px;
+}
+h1 { margin: 0 0 4px; font-size: 22px; }
+h2 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--szary); }
+.pomoc { color: var(--szary); margin: 0 0 16px; }
+
+/* ===== Formularz ===== */
+form { display: flex; gap: 14px; align-items: flex-end; flex-wrap: wrap; }
+label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--szary); font-weight: 600; }
+input, select {
+  font: inherit; font-size: 16px; padding: 10px 12px;
+  border: 1px solid var(--ramka); border-radius: 8px; color: var(--tekst); min-width: 200px;
+}
+input:focus, select:focus { outline: 2px solid var(--glowny-jasny); border-color: transparent; }
+#pole-numer { min-width: 200px; font-weight: 600; }
+
+.przycisk {
+  font: inherit; font-size: 15px; font-weight: 600;
+  padding: 11px 18px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--glowny); background: #fff; color: var(--glowny);
+}
+.przycisk.glowny { background: var(--akcent); border-color: var(--akcent); color: var(--tekst-na-akcencie); }
+.przycisk:hover { filter: brightness(0.95); }
+
+.blad { color: var(--czerwony); font-weight: 600; margin: 14px 0 0; }
+
+/* ===== Status ===== */
+.status { padding: 16px 20px; border-radius: 12px; margin-bottom: 18px; font-size: 17px; border-left: 6px solid; }
+.status.ok { background: var(--zielony-tlo); color: var(--zielony); border-color: var(--zielony); }
+.status.zle { background: var(--czerwony-tlo); color: var(--czerwony); border-color: var(--czerwony); }
+
+/* ===== Karty z informacjami ===== */
+.siatka { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.siatka .karta { margin-bottom: 0; }
+.info p { margin: 2px 0; color: var(--szary); }
+.info p.duze { color: var(--tekst); font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+@media (max-width: 700px) { .siatka { grid-template-columns: 1fr; } }
+
+.akcje { display: flex; gap: 14px; align-items: flex-end; flex-wrap: wrap; margin-top: 18px; }
+.akcje select { min-width: 320px; }
+
+.api {
+  background: #0a2a31; color: #ffe08a; padding: 16px; border-radius: 12px;
+  font-size: 13px; overflow-x: auto; margin: 0 0 18px;
+}
+
+/* ===== Dokument (wygląda jak kartka A4) ===== */
+.pasek-dokumentu { display: flex; justify-content: space-between; align-items: center; margin: 8px 0 12px; font-weight: 600; color: var(--szary); }
+.dokument {
+  background: #fff; max-width: 800px; margin: 0 auto 40px; padding: 40px 48px;
+  box-shadow: 0 4px 24px rgba(13, 59, 69, 0.14); border-radius: 4px; font-size: 14px;
+}
+.dok-naglowek { display: flex; justify-content: space-between; gap: 20px; border-bottom: 3px solid var(--glowny); padding-bottom: 16px; }
+.dok-firma { font-size: 22px; font-weight: 800; color: var(--glowny); }
+.dok-naglowek h3 { margin: 8px 0 6px; font-size: 20px; text-transform: uppercase; }
+.dok-naglowek p { margin: 2px 0; }
+.dok-qr { text-align: center; }
+.dok-qr small { display: block; color: var(--szary); font-size: 11px; max-width: 140px; }
+.dok-strony { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 20px 0; }
+.dok-strony h4, .dok-dane span { color: var(--szary); font-weight: 600; }
+.dok-strony h4 { margin: 0 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.dok-tabela { width: 100%; border-collapse: collapse; margin: 10px 0 20px; }
+.dok-tabela th, .dok-tabela td { border: 1px solid #c9d0da; padding: 8px; text-align: left; vertical-align: top; }
+.dok-tabela th { background: #e4eeec; font-size: 12px; }
+.dok-dane p { margin: 4px 0; }
+.dok-podpisy { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 70px; }
+.dok-podpisy div { border-top: 1px dotted #555; padding-top: 6px; text-align: center; font-size: 12px; color: var(--szary); }
+
+/* ===== Tabele w zakładce "Bazy danych" ===== */
+.przewijanie { overflow-x: auto; max-height: 420px; overflow-y: auto; }
+.tabela { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tabela th { position: sticky; top: 0; background: #e4eeec; text-align: left; padding: 8px 10px; }
+.tabela td { padding: 7px 10px; border-top: 1px solid var(--ramka); white-space: nowrap; }
+
+/* ===== Faktury i pilne zwroty ===== */
+.siatka .szeroka { grid-column: 1 / -1; }
+.link-faktura { color: var(--glowny-jasny); font-weight: 700; }
+.przycisk.maly { padding: 6px 12px; font-size: 13px; }
+.pomoc.maly { font-size: 13px; margin: 12px 0 0; }
+.tabela tfoot td { border-top: 2px solid var(--ramka); padding: 9px 10px; }
+.znacznik { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 13px; font-weight: 700; }
+.znacznik.dzis { background: var(--czerwony-tlo); color: var(--czerwony); }
+.znacznik.wkrotce { background: #fff4d6; color: #7a5200; }
+
+/* ===== Drukowanie: drukujemy tylko dokument ===== */
+@media print {
+  body { background: #fff; }
+  .pasek, .wyszukiwarka, #status, .siatka, .akcje, .api, .pasek-dokumentu { display: none !important; }
+  main { margin: 0; max-width: none; padding: 0; }
+  .dokument { box-shadow: none; margin: 0; padding: 0; max-width: none; }
+}
